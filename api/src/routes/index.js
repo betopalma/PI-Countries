@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const {fetch} = require('node-fetch')
+const axios = require('axios');
 
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
@@ -26,14 +26,68 @@ router.get("/countries", async (req,res,next)=>{
             //Veo si la tabla countries tiene registros
             //const paises = await Country.findAll()
             const countpaises = await Country.count()
-            if (countpaises === 1) {
+            if (countpaises === 0) {
                 // Recuperar paises y ponerlos en la base de datos
-                console.log('Por leer')
-                fetch(`https://restcountries.com/v3/name/Argentina`)
-                console.log('despues del fetch')
-                //.then(r => res.send(r))
-                .then(r => r.json())
-                .then((recurso) => res.send(recurso))
+                let info = [];
+                axios
+                .get(`https://restcountries.com/v3/all`)
+                //.then(r => r.json())
+                .then( async (r) => {
+                    try {
+                        // console.log(r.data[0].cca3)
+                        // console.log(r.data[0].name.common)
+                        // console.log(r.data[0].flags[0])
+                        // console.log(r.data[0].region)
+                        // console.log(r.data[0].capital[0])
+                        // console.log(r.data[0].subregion)
+                        // console.log(r.data[0].area)
+                        // console.log(r.data[0].population)
+
+                        info=r.data.map((i)=>{
+                            //console.log('Capital:  ' , i.capital)
+
+                            i.IDD === undefined ? i.IDD='XXX' : null;
+                            i.name === undefined ? i.name='Sin Datos Reportados' : null;                            
+                            i.flags[0] === undefined ? i.flags=['http://sin.img.com'] : null;
+                            i.region === undefined ? i.region='Sin Datos Reportados' : null;
+                            i.capital === undefined ? i.capital=['Sin Datos Reportados'] : null;
+                            i.subregion === undefined ? i.subregion='Sin Datos Reportados' : null;
+                            i.area === undefined ? i.area=0 : null;
+                            i.poblacion === undefined ? i.poblacion=0 : null;
+
+
+                            return ({
+                                IDD: i.cca3,
+                                name: i.name.common,
+                                flags: i.flags[0],
+                                region: i.region,
+                                capital: i.capital[0],
+                                subregion: i.subregion,
+                                area: i.area,
+                                poblacion: i.population  
+                            })
+                        }
+                        )
+                        // console.log(info[18])
+                        // console.log(info[19])
+                        // console.log(info[20])
+                        //console.log(info[0])
+                        const pais = await Country.bulkCreate (info);
+                    }
+                    catch (error) {
+                        console.log('Error en bulk: ' + error)
+                    }
+
+                    //console.log(pais)
+                    // console.log(r.data[0].name.common)
+                    // console.log(r.data[0].flags[0])
+                    // console.log(r.data[0].region)
+                    // console.log(r.data[0].capital[0])
+                    // console.log(r.data[0].subregion)
+                    // console.log(r.data[0].area)
+                    // console.log(r.data[0].population)
+                    res.send(info)
+                })
                 .catch((error)=>{
                     res.send(error)
                 })
