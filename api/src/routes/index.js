@@ -6,7 +6,7 @@ const axios = require('axios');
 
 const router = Router();
 
-const {Country, Turactivity} = require('../db.js')
+const {Country, Activity } = require('../db.js')
 
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
@@ -15,87 +15,102 @@ router.get("/", (req,res,next)=>{
     res.send("En /")
 })
 
+router.get("/countries/:idPais", async (req,res,next)=>{
+    //res.send("En countries por param")
+// Ruta de detalle de país__: debe contener
+// - [ ] Los campos mostrados en la ruta principal para cada país (imagen de la bandera, nombre, código de país de 3 letras y continente)
+// - [ ] Código de país de 3 letras (id)
+// - [ ] Capital
+// - [ ] Subregión
+// - [ ] Área (Mostrarla en km2 o millones de km2)
+// - [ ] Población
+// - [ ] Actividades turísticas con toda su información asociada
+
+    const {idPais} = req.params;
+    if (!idPais) return (res.send('Pais nulo'))
+    try {
+        const p = await Country.findByPk(
+            idPais.toUpperCase(),
+            { 
+                include: [{
+                    model:Activity,
+                    through: { attributes: []},
+                    attributes: ['IDD','name','dificultad','duracion','temporada']
+                }],
+                attributes: ['IDD','name','flags','capital','subregion','area','population']
+            }    
+
+        )
+        if (p === null) res.send({'msg': 'Pais no encontrado'});
+        else {
+            res.send(p)
+        }
+    }    
+    catch (error) {
+        res.send(error);
+    }
+
+})
+
 router.get("/countries", async (req,res,next)=>{
     // Si es por query:.....
-    // Si no es por query, si la tbala countries esta vacia, debe llenarla
+    // Si no es por query, si la tabla countries esta vacia, debe llenarla
     const {idpais} = req.query;
     try {
         if (idpais===undefined)
         {
-            //res.send("En countries")
+
             //Veo si la tabla countries tiene registros
-            //const paises = await Country.findAll()
+
             const countpaises = await Country.count()
             if (countpaises === 0) {
+                console.log('Cargando Base de Datos')
                 // Recuperar paises y ponerlos en la base de datos
                 let info = [];
                 axios
                 .get(`https://restcountries.com/v3/all`)
-                //.then(r => r.json())
                 .then( async (r) => {
                     try {
-                        // console.log(r.data[0].cca3)
-                        // console.log(r.data[0].name.common)
-                        // console.log(r.data[0].flags[0])
-                        // console.log(r.data[0].region)
-                        // console.log(r.data[0].capital[0])
-                        // console.log(r.data[0].subregion)
-                        // console.log(r.data[0].area)
-                        // console.log(r.data[0].population)
-
                         info=r.data.map((i)=>{
-                            //console.log('Capital:  ' , i.capital)
-
                             i.IDD === undefined ? i.IDD='XXX' : null;
                             i.name === undefined ? i.name='Sin Datos Reportados' : null;                            
                             i.flags[0] === undefined ? i.flags=['http://sin.img.com'] : null;
-                            i.region === undefined ? i.region='Sin Datos Reportados' : null;
+                            i.continent === undefined ? i.continent='Sin Datos Reportados' : null;
                             i.capital === undefined ? i.capital=['Sin Datos Reportados'] : null;
                             i.subregion === undefined ? i.subregion='Sin Datos Reportados' : null;
-                            i.area === undefined ? i.area=0 : null;
-                            i.poblacion === undefined ? i.poblacion=0 : null;
-
+                            i.area === undefined ? i.area=0 : i.area=parseFloat(i.area);
+                            i.population === undefined ? i.population=0 : i.population=parseInt(i.population);
 
                             return ({
                                 IDD: i.cca3,
                                 name: i.name.common,
                                 flags: i.flags[0],
-                                region: i.region,
+                                continent: i.continent,
                                 capital: i.capital[0],
                                 subregion: i.subregion,
                                 area: i.area,
-                                poblacion: i.population  
+                                population: i.population  
                             })
                         }
                         )
-                        // console.log(info[18])
-                        // console.log(info[19])
-                        // console.log(info[20])
-                        //console.log(info[0])
                         const pais = await Country.bulkCreate (info);
+                        res.send(info)
                     }
                     catch (error) {
                         console.log('Error en bulk: ' + error)
                     }
 
-                    //console.log(pais)
-                    // console.log(r.data[0].name.common)
-                    // console.log(r.data[0].flags[0])
-                    // console.log(r.data[0].region)
-                    // console.log(r.data[0].capital[0])
-                    // console.log(r.data[0].subregion)
-                    // console.log(r.data[0].area)
-                    // console.log(r.data[0].population)
-                    res.send(info)
+
                 })
                 .catch((error)=>{
                     res.send(error)
                 })
             }
-            //res.send({'cantidad': countpaises})
+            //res.send('Base Ya Cargada')
         }
         else 
         {
+            //Aced
             res.send("En countries por query: "+idpais)
         } 
     }
@@ -105,16 +120,44 @@ router.get("/countries", async (req,res,next)=>{
 })
 
 
-router.get("/countries/:idPais", (req,res,next)=>{
-    res.send("En countries por param")
-})
 
-router.get("/countries", (req,res,next)=>{
-    res.send("En countries por query")
-})
 
-router.get("/activity", (req,res,next)=>{
-    res.send("En Activity")
+
+router.get("/activity", async (req,res,next)=>{
+
+    //console.log(await Country.countActivity());
+    //Country.getActivities();
+    //const c = Country.getActivities();
+    // const sky = Activity.create({
+    //     IDD: '1',
+    //     name:'Sky1',
+    //     dificultad:1,
+    //     duracion:'10min',
+    //     temporada:'Verano'
+    // })
+    // const sky2 = Activity.create({
+    //     IDD: '2',
+    //     name:'Sky2',
+    //     dificultad:1,
+    //     duracion:'30min',
+    //     temporada:'Primavera'
+    // })
+    try {
+    const p = await Country.findByPk('ARG');
+    const a = await Activity.findByPk(1);
+    const b = await Activity.findByPk(2);
+    console.log(p)
+    await p.addActivity(a);
+    await p.addActivity(b);
+    //await p.addActivity(sky);
+ 
+
+    }
+    catch (error) {
+        console.log(error)
+    }
+    
+    res.send(Activity.findAll())
 })
 
 module.exports = router;

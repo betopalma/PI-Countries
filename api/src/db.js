@@ -25,17 +25,29 @@ fs.readdirSync(path.join(__dirname, '/models'))
 modelDefiners.forEach(model => model(sequelize));
 // Capitalizamos los nombres de los modelos ie: product => Product
 let entries = Object.entries(sequelize.models);
+
 let capsEntries = entries.map((entry) => [entry[0][0].toUpperCase() + entry[0].slice(1), entry[1]]);
+
 sequelize.models = Object.fromEntries(capsEntries);
 
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
-const { Country, Turactivity } = sequelize.models;
+const { Country, Activity } = sequelize.models;
 
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
-Turactivity.belongsToMany(Country , {through: 'CountryActivities'})
-Country.belongsToMany(Turactivity , {through: 'CountryActivities'})
+
+(async () => {
+try {
+  console.log('Hace asociacion')
+  Activity.belongsToMany(Country , {through: 'countryactivities'})
+  Country.belongsToMany(Activity , {through: 'countryactivities'})
+}
+catch (error) {
+  console.log('error en asociacion',error)
+}
+})()
+
 
 
 module.exports = {
