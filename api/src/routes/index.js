@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const axios = require('axios');
+const {Op} = require('sequelize');
 
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
@@ -16,15 +17,32 @@ router.get("/", (req,res,next)=>{
 })
 
 router.get("/countries/:idPais", async (req,res,next)=>{
-    //res.send("En countries por param")
-// Ruta de detalle de país__: debe contener
-// - [ ] Los campos mostrados en la ruta principal para cada país (imagen de la bandera, nombre, código de país de 3 letras y continente)
-// - [ ] Código de país de 3 letras (id)
-// - [ ] Capital
-// - [ ] Subregión
-// - [ ] Área (Mostrarla en km2 o millones de km2)
-// - [ ] Población
-// - [ ] Actividades turísticas con toda su información asociada
+    // Ejemplo de lo que devuelve
+    // {
+    //     "IDD": "ARG",
+    //     "name": "Argentina",
+    //     "flags": "https://flagcdn.com/ar.svg",
+    //     "capital": "Buenos Aires",
+    //     "subregion": "South America",
+    //     "area": "2780400",
+    //     "population": "45376763",
+    //     "activities": [
+    //      {
+    //          "IDD": "1",
+    //          "name": "Sky1",
+    //          "dificultad": 1,
+    //          "duracion": "10min",
+    //          "temporada": "Verano"
+    //      },
+    //      {
+    //          "IDD": "2",
+    //          "name": "Sky2",
+    //          "dificultad": 1,
+    //          "duracion": "30min",
+    //          "temporada": "Primavera"
+    //     }
+    //     ]
+    // }
 
     const {idPais} = req.params;
     if (!idPais) return (res.send('Pais nulo'))
@@ -39,7 +57,6 @@ router.get("/countries/:idPais", async (req,res,next)=>{
                 }],
                 attributes: ['IDD','name','flags','capital','subregion','area','population']
             }    
-
         )
         if (p === null) res.send({'msg': 'Pais no encontrado'});
         else {
@@ -54,10 +71,12 @@ router.get("/countries/:idPais", async (req,res,next)=>{
 
 router.get("/countries", async (req,res,next)=>{
     // Si es por query:.....
-    // Si no es por query, si la tabla countries esta vacia, debe llenarla
-    const {idpais} = req.query;
+    // Si no es por query: si la tabla countries esta vacia, debe llenarla.
+    //                     Devolver los paises
+    
+    const {name} = req.query;
     try {
-        if (idpais===undefined)
+        if (name===undefined)
         {
 
             //Veo si la tabla countries tiene registros
@@ -75,7 +94,7 @@ router.get("/countries", async (req,res,next)=>{
                             i.IDD === undefined ? i.IDD='XXX' : null;
                             i.name === undefined ? i.name='Sin Datos Reportados' : null;                            
                             i.flags[0] === undefined ? i.flags=['http://sin.img.com'] : null;
-                            i.continent === undefined ? i.continent='Sin Datos Reportados' : null;
+                            i.region === undefined ? i.region='Sin Datos Reportados' : null;
                             i.capital === undefined ? i.capital=['Sin Datos Reportados'] : null;
                             i.subregion === undefined ? i.subregion='Sin Datos Reportados' : null;
                             i.area === undefined ? i.area=0 : i.area=parseFloat(i.area);
@@ -85,7 +104,7 @@ router.get("/countries", async (req,res,next)=>{
                                 IDD: i.cca3,
                                 name: i.name.common,
                                 flags: i.flags[0],
-                                continent: i.continent,
+                                continent: i.region,
                                 capital: i.capital[0],
                                 subregion: i.subregion,
                                 area: i.area,
@@ -106,12 +125,39 @@ router.get("/countries", async (req,res,next)=>{
                     res.send(error)
                 })
             }
-            //res.send('Base Ya Cargada')
+            else{
+                console.log('Base de Datos ya cargada')
+                const p = await Country.findAll({
+                    attributes: ['IDD','name','flags','capital','subregion','area','population']
+                })
+                res.send(p)
+            }
         }
         else 
         {
-            //Aced
-            res.send("En countries por query: "+idpais)
+            //Devolver idd-Nombre-Imagen-Continente like %name% 
+            // Devuelve arreglo de objetos como este:
+            // [
+            //   {
+            //    "IDD": "BRA",
+            //    "name": "Brazil",
+            //    "continent": "Sin Datos Reportados",
+            //    "flags": "https://flagcdn.com/br.svg"
+            //  }
+            //]
+
+            const p = await Country.findAll(
+                {
+                    attributes: ['IDD','name','continent','flags'],
+                    where: {
+                        name: { 
+                            [Op.iLike]: `%${name}%`,
+                        }
+                    }
+                }
+
+            )
+            res.send(p);
         } 
     }
     catch (error) {
@@ -125,9 +171,6 @@ router.get("/countries", async (req,res,next)=>{
 
 router.get("/activity", async (req,res,next)=>{
 
-    //console.log(await Country.countActivity());
-    //Country.getActivities();
-    //const c = Country.getActivities();
     // const sky = Activity.create({
     //     IDD: '1',
     //     name:'Sky1',
