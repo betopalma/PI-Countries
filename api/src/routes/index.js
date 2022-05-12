@@ -232,24 +232,24 @@ router.post("/activity", async (req,res,next)=>{
 router.post("/vincular", async (req,res,next)=>{
     // Vincula 1 actividad a 1 o varios paises
 
-
     const {iddAct , IDDPais} = req.body;
 
-    console.log(iddAct, IDDPais[0], IDDPais[1])
     try {
         
         if (!iddAct || !IDDPais) {
             res.send('Faltan datos')
         } else {
             const act = await Activity.findByPk(iddAct)
-            const p1 = await Country.findByPk(IDDPais[0])
-            const p2 = await Country.findByPk(IDDPais[1])
-            if (!act) console.log('Actividad o encontrada')
+            if (!act) console.log('Actividad no encontrada')
             else{
-                await act.addCountries(p1)
-                await act.addCountries(p2)
+                IDDPais.forEach(async (i) => {
+                    const p = await Country.findByPk(i)
+                    if (!p) console.log ('Pais ', i, 'no encontrado' )
+                    else {
+                        const r = await act.addCountries(p)
+                    }
+                })
             }
-
             res.send('Vinculacion Hecha')
         }
 
@@ -258,38 +258,6 @@ router.post("/vincular", async (req,res,next)=>{
         console.log(error)
     }
 
-
-    // const sky = Activity.create({
-    //     IDD: '1',
-    //     name:'Sky1',
-    //     dificultad:1,
-    //     duracion:'10min',
-    //     temporada:'Verano'
-    // })
-    // const sky2 = Activity.create({
-    //     IDD: '2',
-    //     name:'Sky2',
-    //     dificultad:1,
-    //     duracion:'30min',
-    //     temporada:'Primavera'
-    // })
-    // try {
-    // const p = await Country.findByPk('ARG');
-    // const a = await Activity.findByPk(1);
-    // const b = await Activity.findByPk(2);
-    // console.log(p)
-    // await p.addActivity(a);
-    // await p.addActivity(b);
-
-    // //await p.addActivity(sky);
- 
-
-    // }
-    // catch (error) {
-    //     console.log(error)
-    // }
-    
-    //res.send(Activity.findAll())
 })
 
 module.exports = router;
