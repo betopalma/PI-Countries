@@ -53,7 +53,7 @@ router.get("/countries/:idPais", async (req,res,next)=>{
                 include: [{
                     model:Activity,
                     through: { attributes: []},
-                    attributes: ['IDD','name','dificultad','duracion','temporada']
+                    attributes: ['idd','name','dificultad','duracion','temporada']
                 }],
                 attributes: ['IDD','name','flags','capital','subregion','area','population']
             }    
@@ -169,7 +169,32 @@ router.get("/countries", async (req,res,next)=>{
 
 
 
-router.get("/activity", async (req,res,next)=>{
+router.post("/activity", async (req,res,next)=>{
+    // Recibe x body los parametros
+    // Opcion de alta
+
+
+    const {iddAct , name , dificultad, duracion, temporada} = req.body;
+
+    console.log(iddAct,name, parseInt(dificultad),duracion,temporada)
+    try {
+        
+        if (!iddAct || !name || !dificultad || !duracion || !temporada) {
+            res.send('Faltan datos')
+        } else {
+            console.log(iddAct,name, parseInt(dificultad),duracion,temporada)
+            const act = await Activity.create({
+                idd:iddAct,name,dificultad: parseInt(dificultad),duracion,temporada
+            })
+        }
+
+        res.send(Activity.findAll())
+
+    }  
+    catch(error) {
+        console.log(error)
+    }
+
 
     // const sky = Activity.create({
     //     IDD: '1',
@@ -185,22 +210,86 @@ router.get("/activity", async (req,res,next)=>{
     //     duracion:'30min',
     //     temporada:'Primavera'
     // })
-    try {
-    const p = await Country.findByPk('ARG');
-    const a = await Activity.findByPk(1);
-    const b = await Activity.findByPk(2);
-    console.log(p)
-    await p.addActivity(a);
-    await p.addActivity(b);
-    //await p.addActivity(sky);
+    // try {
+    // const p = await Country.findByPk('ARG');
+    // const a = await Activity.findByPk(1);
+    // const b = await Activity.findByPk(2);
+    // console.log(p)
+    // await p.addActivity(a);
+    // await p.addActivity(b);
+
+    // //await p.addActivity(sky);
  
 
-    }
-    catch (error) {
+    // }
+    // catch (error) {
+    //     console.log(error)
+    // }
+    
+    //res.send(Activity.findAll())
+})
+
+router.post("/vincular", async (req,res,next)=>{
+    // Vincula 1 actividad a 1 o varios paises
+
+
+    const {iddAct , IDDPais} = req.body;
+
+    console.log(iddAct, IDDPais[0], IDDPais[1])
+    try {
+        
+        if (!iddAct || !IDDPais) {
+            res.send('Faltan datos')
+        } else {
+            const act = await Activity.findByPk(iddAct)
+            const p1 = await Country.findByPk(IDDPais[0])
+            const p2 = await Country.findByPk(IDDPais[1])
+            if (!act) console.log('Actividad o encontrada')
+            else{
+                await act.addCountries(p1)
+                await act.addCountries(p2)
+            }
+
+            res.send('Vinculacion Hecha')
+        }
+
+    }  
+    catch(error) {
         console.log(error)
     }
+
+
+    // const sky = Activity.create({
+    //     IDD: '1',
+    //     name:'Sky1',
+    //     dificultad:1,
+    //     duracion:'10min',
+    //     temporada:'Verano'
+    // })
+    // const sky2 = Activity.create({
+    //     IDD: '2',
+    //     name:'Sky2',
+    //     dificultad:1,
+    //     duracion:'30min',
+    //     temporada:'Primavera'
+    // })
+    // try {
+    // const p = await Country.findByPk('ARG');
+    // const a = await Activity.findByPk(1);
+    // const b = await Activity.findByPk(2);
+    // console.log(p)
+    // await p.addActivity(a);
+    // await p.addActivity(b);
+
+    // //await p.addActivity(sky);
+ 
+
+    // }
+    // catch (error) {
+    //     console.log(error)
+    // }
     
-    res.send(Activity.findAll())
+    //res.send(Activity.findAll())
 })
 
 module.exports = router;
