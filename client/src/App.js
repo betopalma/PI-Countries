@@ -4,6 +4,7 @@ import "./Components/NavBar.js"
 import NavBar from './Components/NavBar.js';
 import Acciones from './Components/Acciones.js';
 import Paises from './Components/Paises.js'
+import Bienvenida from './Components/Bienvenida.js'
 
 
 function App() {
@@ -18,6 +19,9 @@ function App() {
             <NavBar />
           </Route>
           <Switch> 
+            <Route exact path='/'>
+              <Bienvenida />
+            </Route>
             <Route exact path='/home'>
               <Acciones />
               <Paises />

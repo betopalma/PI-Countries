@@ -1,0 +1,26 @@
+.Pais {
+    display: flex;
+    min-height: 20vh;
+    min-width: 30vh;
+    max-height: 30vh;
+    min-width: 50vh;
+    flex-direction: column;
+    align-items: left;
+    justify-content: left;
+    font-size: calc(10px + 2vmin);
+    color: rgb(12, 11, 11);
+    border-radius: 2vh;
+    border: 2px solid red;
+    margin: 2px;
+
+}
+
+.PaisImg {
+
+}
+
+.Datos {
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 10px;
+    padding-top: 5px;
+}

@@ -3,8 +3,7 @@
     background-color: #4cb9d4;
     min-height: 2vh;
     max-height: 5vh;
-    
-   
+       
     align-items: left;
     
     font-size: calc(5px + 2vmin);
@@ -20,3 +19,4 @@
     padding-left: 10px;
   }
 
+ 

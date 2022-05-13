@@ -1,0 +1,9 @@
+.Fondo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 585px;
+    background-image: url('../Images/countries.png');
+    background-size: cover
+}

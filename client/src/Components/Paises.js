@@ -1,9 +1,19 @@
 import './Paises.css'
+import Pais from './Pais.js'
 
 function Paises () {
     return (
         <div className='Paises'>
-            Paises
+            <Pais />
+            <Pais />
+            <Pais />
+            <Pais />
+            <Pais />
+            <Pais />
+            <Pais />
+            <Pais />
+            <Pais />
+            <Pais />
         </div>
     )
 }
