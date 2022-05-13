@@ -1,0 +1,14 @@
+.Acciones {
+    background-color: #f7ad0f;
+    min-height: 10vh;
+    max-height: 15vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+    border-radius: 2vh;
+    border: 1px solid black;
+    margin: 2px;
+  }

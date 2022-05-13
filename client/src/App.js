@@ -1,11 +1,36 @@
+import {Route, Switch, Fragment} from 'react-router-dom';
 import './App.css';
+import "./Components/NavBar.js"
+import NavBar from './Components/NavBar.js';
+import Acciones from './Components/Acciones.js';
+import Paises from './Components/Paises.js'
+
 
 function App() {
   return (
-    <div className="App">
-      <h1>Henry Countries</h1>
+    <div className='App'>
+      <head>
+
+      </head>
+      <body>
+      <div>
+          <Route path='/'>
+            <NavBar />
+          </Route>
+          <Switch> 
+            <Route exact path='/home'>
+              <Acciones />
+              <Paises />
+            </Route>
+            {/* <Route path='*'>
+              <h1>Error 404</h1>
+            </Route> */}
+          </Switch>
+        </div>
+      </body>
     </div>
-  );
+
+  )
 }
 
 export default App;
