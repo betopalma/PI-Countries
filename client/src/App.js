@@ -2,7 +2,7 @@ import {Route, Switch, Fragment} from 'react-router-dom';
 import './App.css';
 import "./Components/NavBar.js"
 import NavBar from './Components/NavBar.js';
-import Acciones from './Components/Acciones.js';
+import Panel from './Components/Panel.js';
 import Paises from './Components/Paises.js'
 import Bienvenida from './Components/Bienvenida.js'
 
@@ -23,7 +23,7 @@ function App() {
               <Bienvenida />
             </Route>
             <Route exact path='/home'>
-              <Acciones />
+              <Panel />
               <Paises />
             </Route>
             {/* <Route path='*'>
