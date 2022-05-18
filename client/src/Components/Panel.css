@@ -1,14 +1,120 @@
 .Panel {
-    background-color: #f7ad0f;
+
     min-height: 10vh;
     max-height: 15vh;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+    justify-content: left;
+    font-size: calc(2px + 2vmin);
+    color: rgb(56, 51, 51);
     border-radius: 2vh;
     border: 1px solid black;
     margin: 2px;
   }
+
+.PanelOrden {
+    display: flex;
+    flex-direction: column;
+    margin-left: 50px;
+    width: 30%;
+}
+  
+.PanelOPais {
+  display: flex;
+  flex-direction: row;
+  justify-content:left;
+  margin-top: 10px;
+}
+
+.PanelOPob {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  margin-top: 10px;
+}
+
+
+.PanelFiltro {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  width: 22%;
+  
+}
+
+.PanelInput {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+
+}
+
+.PanelAct {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 30%;
+}
+
+.PanelBsc {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  width: 20%;
+}
+
+#pInputP {
+  margin-top: 2px;
+  border-radius: 5px;
+  position: relative;
+  left: 91px;
+  border: 1px solid red;
+}
+#pInputC {
+  margin-top: 2px;
+  border-radius: 5px;
+  position: relative;
+  left: 45px;
+  border: 1px solid red;
+}
+#pInputA {
+  margin-top: 2px;
+  border-radius: 5px;
+  position: relative;
+  left: 20px;
+  border: 1px solid red;
+}
+
+#PanelPAsc{
+  position: relative;
+  left: 42px;
+}
+
+#PanelPDes{
+  position: relative;
+  margin-left: 3px;
+}
+
+#PaisA{
+  position: relative;
+  left: 40px;
+  margin-left: 3px;
+}
+
+#PBtn {
+  border-radius: 2vh;
+  border: solid blue;
+  margin-left: 10px;
+  margin-right: 10px;
+
+}
+
+#BtnBuscar {
+  width: 60%;
+  height: 100%;
+  border-radius: 2vh;
+  border: 1px solid red;
+  margin-left: 10px;
+  margin-bottom: 5px;
+}

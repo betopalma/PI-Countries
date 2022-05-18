@@ -13,7 +13,7 @@ function NavBar() {
                 <Link to='/home'>Paises</Link>
             </div>
             <div className='EnlacesNavBar'>
-                <Link to='/activity'>Actividades Turisticas</Link>
+                <Link to='/detallepais'>Detalle</Link>
             </div>
         </div>
         </>
