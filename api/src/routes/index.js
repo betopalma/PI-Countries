@@ -55,7 +55,7 @@ router.get("/countries/:idPais", async (req,res,next)=>{
                     through: { attributes: []},
                     attributes: ['idd','name','dificultad','duracion','temporada']
                 }],
-                attributes: ['IDD','name','flags','capital','subregion','area','population']
+                attributes: ['IDD','name','flags','continent','capital','subregion','area','population']
             }    
         )
         if (p === null) res.send({'msg': 'Pais no encontrado'});
@@ -96,7 +96,7 @@ router.get("/countries", async (req,res,next)=>{
                             i.flags[0] === undefined ? i.flags=['http://sin.img.com'] : null;
                             i.region === undefined ? i.region='Sin Datos Reportados' : null;
                             i.capital === undefined ? i.capital=['Sin Datos Reportados'] : null;
-                            i.subregion === undefined ? i.subregion='Sin Datos Reportados' : null;
+                            i.subregion === undefined ? i.subregion='Sin Datos' : null;
                             i.area === undefined ? i.area=0 : i.area=parseFloat(i.area);
                             i.population === undefined ? i.population=0 : i.population=parseInt(i.population);
 
@@ -128,7 +128,7 @@ router.get("/countries", async (req,res,next)=>{
             else{
                 console.log('Base de Datos ya cargada')
                 const p = await Country.findAll({
-                    attributes: ['IDD','name','flags','capital','subregion','area','population']
+                    attributes: ['IDD','name','flags','continent', 'capital','subregion','area','population']
                 })
                 res.send(p)
             }
@@ -148,7 +148,7 @@ router.get("/countries", async (req,res,next)=>{
 
             const p = await Country.findAll(
                 {
-                    attributes: ['IDD','name','continent','flags'],
+                    attributes: ['IDD','name','continent','flags','population'],
                     where: {
                         name: { 
                             [Op.iLike]: `%${name}%`,
