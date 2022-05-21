@@ -43,6 +43,13 @@
           paisesAmostrar: state.paisesLoaded
         };
       }
+      if (action.type === "SET_ORDER") {
+        console.log('En reducer Order')
+        return {
+          ...state,
+          paisesAmostrar: action.payload
+        };
+      }
     return state
   }
 

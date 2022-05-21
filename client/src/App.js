@@ -6,6 +6,7 @@ import Panel from './Components/Panel.js';
 import Paises from './Components/Paises.js'
 import Bienvenida from './Components/Bienvenida.js'
 import Detail from './Components/PaisDetalle.js';
+import FormularioAct from './Components/Actividades.js'
 
 
 function App() {
@@ -30,7 +31,10 @@ function App() {
               <NavBar/>
               <Detail/>
             </Route>  
-
+            <Route exact path='/activity'>
+              <NavBar/>
+              <FormularioAct/>
+            </Route>  
             {/* <Route path='*'>
               <h1>Error 404</h1>
             </Route> */}

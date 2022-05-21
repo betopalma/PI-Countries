@@ -1,11 +1,17 @@
 
 
 export function getCountries(data) {
+  //Ordenar x primera vez
+  function SortArray(x, y){
+      return x.name.localeCompare(y.name);
+  }
+  var dataO = data.sort(SortArray);
     return async function(dispatch) {
       console.log('En action get_countries',data)
+
       return dispatch({
         type: 'GET_COUNTRIES',
-        payload: data
+        payload: dataO
       })
     };
   }
@@ -37,6 +43,16 @@ export function getCountries(data) {
         });
       }
     }
+
+    export function setearOrden(data) {
+      return async function(dispatch) {
+       console.log('En action filtered', data)
+       return dispatch({
+         type: 'SET_ORDER',
+         payload: data
+       })
+      };
+     }
 
     export function getCountriesDetails(data) {
       return async function(dispatch) {

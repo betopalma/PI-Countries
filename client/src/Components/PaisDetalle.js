@@ -1,6 +1,7 @@
 import React from 'react'
 import './PaisDetalle.css'
 import { connect } from 'react-redux';
+import {Redirect} from 'react-router-dom';
 import { getCountriesDetails } from '../Actions/actions';
 
 
@@ -14,12 +15,13 @@ export class PaisDetalle extends React.Component {
 
     componentDidMount(){
         console.log('en didmount',this.props.paisesDetail)
-        //getCountriesDetails()
-        //this.props.getMovieDetail(this.props.match.params.id)
     }
+
+
 
     render(){
         console.log('en detalle')
+        if (!this.props.paisesDetail) return <Redirect to="/" />;
         return (
             <div className='Detalle'>
                 {/* //Imagen,cod pais,nombre pais,Continente
@@ -48,7 +50,7 @@ export class PaisDetalle extends React.Component {
                             {`Subregión: ${this.props.paisesDetail.subregion}`} 
                         </div>
                         <div className='R11D'>
-                            {`Area: ${this.props.paisesDetail.area}`} 
+                            {`Area: ${this.props.paisesDetail.area > 1000000 ? (this.props.paisesDetail.area/1000000).toFixed(2)+' M' : this.props.paisesDetail.area}Km(2)`} 
                         </div>
                         <div className='R11D'>
                             {`Población: ${this.props.paisesDetail.population}`} 
@@ -60,23 +62,17 @@ export class PaisDetalle extends React.Component {
                 </div>
                 <h2>Actividades Turísticas</h2>
                 <div className='ActividadesR'>
-                    <div id='RA1'>
-                        <div className='RA1D'>
-                            ID: 
-                        </div>
-                        <div className='RA1D'>
-                            Nombre: 
-                        </div>
-                        <div className='RA1D'>
-                            Dificultad: 
-                        </div>
-                        <div className='RA1D'>
-                            Duracion: 
-                        </div>
-                        <div className='RA1D'>
-                            Temporada: 
-                        </div>
-                    </div>
+                    {this.props.paisesDetail.activities.map((e)=>{
+                        return (
+                            <div className='RA1D'>
+                                <div className='RA1D'>{`ID: ${e.idd}`}</div>
+                                <div className='RA1D'>{`Actividad: ${e.name}`}</div>
+                                <div className='RA1D'>{`Duración: ${e.duracion}`}</div>
+                                <div className='RA1D'>{`Dificultad: ${e.dificultad}`}</div>
+                                <div className='RA1D'>{`Temporada: ${e.temporada}`}</div>
+                            </div>
+                            );
+                    })}
                 </div>
             </div>
 

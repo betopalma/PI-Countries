@@ -1,7 +1,7 @@
 import './Panel.css'
 import {useDispatch , useSelector} from 'react-redux' 
 import {useState,useEffect } from 'react'
-import {getFilteredCountries,mostrarTodos} from '../Actions/actions.js'
+import {getFilteredCountries,mostrarTodos,setearOrden} from '../Actions/actions.js'
 
 
 
@@ -22,6 +22,7 @@ function Panel() {
     //     }
     //     )
     // }
+
 
 
     const paisHandler = async function (e) {
@@ -51,10 +52,55 @@ function Panel() {
         // setFiltro({...filtro, actividad:e.target.value})
         // dispatch(getFilteredCountries(filtro));
     }
+    const ordenarArrayPAsc = function (x,y) {
+        return x.name.localeCompare(y.name);
+    }
+    const ordenarArrayPDesc = function (x,y) {
+        return y.name.localeCompare(x.name);
+    }
+    const ordenarArrayPoAsc = function (x,y) {
+        console.log('en poasc')
+        return (x.population - y.population)
+
+    }
+    const ordenarArrayPoDesc = function (x,y) {
+        return (y.population - x.population)
+    }
+
+    const ordenarHandler = function (e) {
+        console.log('OrdenarHandler', e.target.value)
+        let ordenados = [];
+        switch (e.target.value) {
+            case 'PAsc':
+                ordenados = paisesAmostrar.sort(ordenarArrayPAsc);
+                break;
+            case 'PDesc':
+                ordenados = paisesAmostrar.sort(ordenarArrayPDesc);
+                break;
+            case 'PoAsc':
+                ordenados = paisesAmostrar.sort(ordenarArrayPoAsc);
+                break;
+            case 'PoDesc':
+                ordenados = paisesAmostrar.sort(ordenarArrayPoDesc);
+                break;
+            default:
+                ordenados = paisesAmostrar.sort(ordenarArrayPAsc)             
+            };
+            console.log('OrdenarHandler',ordenados)
+            dispatch(setearOrden(ordenados));
+
+        // function SortArray(x, y){
+        //     return x.name.localeCompare(y.name);
+        // }
+        // var dataO = data.sort(SortArray);
+
+    }
 
     const todos = function() {
          dispatch(mostrarTodos());
     }
+
+
 
     useEffect(() => {
         //const data = obtenerpaisfiltrado();
@@ -114,17 +160,16 @@ function Panel() {
             </div>
             <div className='PanelOrden'>
                 <div className='PanelOPais'>
-                    <label>Orden Pais:</label>
-                    <label id='PanelPAsc'>Ascendente</label>
-                    <input type="radio" id="PaisA" value="Asc" name="Ordenar"/>
+                    <label id='PanelPAsc'>Orden Pais: Ascendente</label>
+                    <input type="radio" id="PaisA" value="PAsc" name="Ordenar" onClick={(e)=>{ordenarHandler(e)}} defaultChecked/>
                     <label id='PanelPDes'>Descendente</label>
-                    <input type="radio" id="PaisD" value="Desc" name="Ordenar"/>
+                    <input type="radio" id="PaisD" value="PDesc" name="Ordenar" onClick={(e)=>{ordenarHandler(e)}}/>
                 </div>
                 <div className='PanelOPob'>
                     <label>Orden Poblacion: Ascendente</label>
-                    <input type="radio" id="PobA" value="Asc" name="Ordenar"/>
+                    <input type="radio" id="PobA" value="PoAsc" name="Ordenar" onClick={(e)=>{ordenarHandler(e)}}/>
                     <label>Descendente:</label>
-                    <input type="radio" id="PobD" value="Desc" name="Ordenar"/>
+                    <input type="radio" id="PobD" value="PoDesc" name="Ordenar" onClick={(e)=>{ordenarHandler(e)}}/>
                 </div>
             </div>
             <div className="PanelAct">

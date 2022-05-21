@@ -37,7 +37,18 @@
     justify-content: space-between;
     border-bottom: grey;
 }
+.ActividadesR {
+
+    display: flex;
+    flex-direction: column;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 15px;
+    margin-bottom: 5px;
+}
 .RA1D {
     display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
     /* border: solid blue; */
 }

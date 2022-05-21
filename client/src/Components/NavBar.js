@@ -7,14 +7,14 @@ function NavBar() {
         <>
         <div className='NavBar'>
             <div className='EnlacesNavBar'>
-                <Link to='/'>Inicio</Link>
+                <Link to='/'>Salir</Link>
             </div>
             <div className='EnlacesNavBar'>
                 <Link to='/home'>Paises</Link>
             </div>
             <div className='EnlacesNavBar'>
-                <Link to='/detallepais'>Detalle</Link>
-            </div>
+                <Link to='/activity'>Actividades</Link>
+            </div>          
         </div>
         </>
     )
