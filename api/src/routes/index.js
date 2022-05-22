@@ -165,69 +165,61 @@ router.get("/countries", async (req,res,next)=>{
     }
 })
 
+router.get("/activities", async (req,res,next)=>{
+    try {
+        const p = await Activity.findAll({
+            attributes: ['idd','name','dificultad','duracion', 'temporada']
+        })
+        res.send(p)
+    }
+    catch (error) {console.log(error)}
+})
 
-
+router.get("/countriesxactivity/:idAct", async (req,res,next)=>{
+    const {idAct} = req.params;
+    if (!idAct) return (res.send('Actividad nula'))
+    try {
+        const p = await Activity.findByPk(
+            idAct,
+            { 
+                include: [{
+                    model:Country,
+                    through: { attributes: []},
+                    attributes: ['IDD','name','flags','continent','capital','population']
+                }],
+                attributes: []
+            }    
+        )
+        if (p === null) res.send({'msg': 'Actividad sin pais asignado'});
+        else {
+            res.send(p)
+        }
+    }    
+    catch (error) {
+        res.send(error);
+    }
+})
 
 
 router.post("/activity", async (req,res,next)=>{
     // Recibe x body los parametros
     // Opcion de alta
-
-
     const {iddAct , name , dificultad, duracion, temporada} = req.body;
-
     console.log(iddAct,name, parseInt(dificultad),duracion,temporada)
-    try {
-        
-        if (!iddAct || !name || !dificultad || !duracion || !temporada) {
-            res.send('Faltan datos')
-        } else {
-            console.log(iddAct,name, parseInt(dificultad),duracion,temporada)
+ 
+        if (!iddAct || !name || !dificultad || !duracion || !temporada) {res.send('Faltan datos')}
+        else {
             const act = await Activity.create({
                 idd:iddAct,name,dificultad: parseInt(dificultad),duracion,temporada
             })
-        }
-
-        res.send(Activity.findAll())
-
-    }  
-    catch(error) {
-        console.log(error)
+            .then(() => {res.status(201).send({msg: 'Actividad Creada'})})
+            .catch((e)=>{
+                res.status(480)
+                res.statusMessage=e
+                res.send({msg: 'Actividad NO Creada'})})
+       }
     }
-
-
-    // const sky = Activity.create({
-    //     IDD: '1',
-    //     name:'Sky1',
-    //     dificultad:1,
-    //     duracion:'10min',
-    //     temporada:'Verano'
-    // })
-    // const sky2 = Activity.create({
-    //     IDD: '2',
-    //     name:'Sky2',
-    //     dificultad:1,
-    //     duracion:'30min',
-    //     temporada:'Primavera'
-    // })
-    // try {
-    // const p = await Country.findByPk('ARG');
-    // const a = await Activity.findByPk(1);
-    // const b = await Activity.findByPk(2);
-    // console.log(p)
-    // await p.addActivity(a);
-    // await p.addActivity(b);
-
-    // //await p.addActivity(sky);
- 
-
-    // }
-    // catch (error) {
-    //     console.log(error)
-    // }
-    
-    //res.send(Activity.findAll())
-})
+)
 
 router.post("/vincular", async (req,res,next)=>{
     // Vincula 1 actividad a 1 o varios paises
