@@ -10,7 +10,7 @@ function Panel() {
     //console.log('Cargo panel')
     const dispatch = useDispatch();
     const [filtro ,setFiltro] = useState({pais:'',continente:'',actividad:''});
-    const {paisesLoaded,paisesAmostrar} = useSelector((state)=> state);
+    const {paisesLoaded,paisesAmostrar,activities} = useSelector((state)=> state);
 
     // const obtenerpaisfiltrado = function () {
     //     console.log('obtener paises filtrados x query',filtro.pais)
@@ -48,16 +48,23 @@ function Panel() {
         // dispatch(getFilteredCountries(filtro));
     }
     const actividadHandler = function (e) {
-        console.log('On blur' , e.target.value)
-        // setFiltro({...filtro, actividad:e.target.value})
-        // dispatch(getFilteredCountries(filtro));
+        try{
+            setFiltro({pais:'', continente:'',actividad:e.target.value})
+            e.target.value=''
+        }
+        catch (error) {
+            console.log(error)
+        }
     }
+
     const ordenarArrayPAsc = function (x,y) {
         return x.name.localeCompare(y.name);
     }
+
     const ordenarArrayPDesc = function (x,y) {
         return y.name.localeCompare(x.name);
     }
+
     const ordenarArrayPoAsc = function (x,y) {
         console.log('en poasc')
         return (x.population - y.population)
@@ -104,7 +111,7 @@ function Panel() {
 
     useEffect(() => {
         //const data = obtenerpaisfiltrado();
-        if (filtro.pais==='' && filtro.continente==='') return;
+        if (filtro.pais==='' && filtro.continente==='' && filtro.actividad==='') return;
         if (filtro.pais!=='') {
             console.log('obtener paises filtrados x query',filtro.pais)
             return fetch(`http://localhost:3001/countries?name=${filtro.pais}`)
@@ -134,7 +141,34 @@ function Panel() {
                 return mostrar;
             }
         }
+        if (filtro.actividad!=='') {
+            console.log('Actividad',filtro.actividad)
+            return fetch(`http://localhost:3001/countriesxactivity/${filtro.actividad}`)
+            .then(response => response.json())
+            .then(p => {
+                if (p.countries.length!==0) {
+                    dispatch(getFilteredCountries(p.countries));
+                    return p;
+                } 
+                else {
+                    alert('Actividad sin pais Asignado');
+                    return p;
+                }
+            })
 
+
+
+
+            const mostrar = paisesAmostrar.filter((e)=>  e.actividad === filtro.actividad ? e : null)
+            if (mostrar.length!==0) {
+                dispatch(getFilteredCountries(mostrar));
+                return mostrar;
+            } 
+            else {
+                alert('La actividad '+filtro.actividad+' no posee pais asignado');
+                return mostrar;
+            }
+        }
         
     }, [filtro]);
 
@@ -151,7 +185,10 @@ function Panel() {
                 </div>
                 <div className='PanelInput'>
                     <label>Tipo Actividad:</label>
-                    <input type="text" id="pInputA" onBlur={(e)=>{actividadHandler(e)}}/>
+                    <select name="actividad" id="pInputA" onBlur={(e)=>{actividadHandler(e)}}>
+                            <option value="" ></option>
+                            {activities ? activities.map((e)=><option value={e.idd}>{e.name}</option>): null}
+                    </select>
                 </div>
             </div>
             <div className="PanelBsc">

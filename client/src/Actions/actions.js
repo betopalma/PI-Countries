@@ -16,6 +16,18 @@ export function getCountries(data) {
     };
   }
 
+  export function getActivities(data) {
+    //Ordenar x primera vez
+
+      return async function(dispatch) {
+ 
+        return dispatch({
+          type: 'GET_ACTIVITIES',
+          payload: data
+        })
+      };
+    }
+
  export function getFilteredCountries(data) {
    return async function(dispatch) {
     console.log('En action filtered', data)
@@ -63,5 +75,14 @@ export function getCountries(data) {
        });
       };
     };
+
+    export function setCountryCheck(data) {
+      return async function (dispatch) {
+        return dispatch({
+          type: 'SET_COUNTRY_CHECK',
+          payload: data
+        });
+      }
+    }
     
  // export default getCountries;

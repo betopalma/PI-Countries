@@ -3,7 +3,7 @@ import {useDispatch , useSelector} from 'react-redux'
 import {useHistory} from 'react-router-dom'
 import {useEffect} from 'react'
 // import {PaisDetalle} from './PaisDetalle.js'
-import {getCountriesDetails} from '../Actions/actions.js'
+import {getCountriesDetails,setCountryCheck} from '../Actions/actions.js'
 
 function Pais (props) {
     
@@ -25,6 +25,22 @@ function Pais (props) {
             return p;
         }
         )
+    }
+
+    const estadoCheck = function (id) {
+        const x = paisesLoaded.findIndex((e)=>e.IDD===id)
+        console.log('estado',paisesLoaded[x].checked)
+        return paisesLoaded[x].checked;
+    }
+
+    const onChangeCheckBoxHandler = function (id) {
+        //poner en paisesLoaded => check: !check para el objeto IDD=id
+        //Buscar el indice para el IDD
+        console.log('Cambio el check....',id)
+        const indice = paisesLoaded.findIndex ((e)=>e.IDD===id)
+        const data = paisesLoaded;
+        data[indice].checked=!data[indice].checked
+        dispatch(setCountryCheck(data))
     }
 
     const onClickButtonHandler = async function (pos) {
@@ -59,7 +75,8 @@ function Pais (props) {
                 </div>
             </div>
             <div className='PaisControles'>
-                <input type="checkbox" className='PaisCheck'></input>
+                <input type="checkbox" className='PaisCheck' onChange={(e)=>{onChangeCheckBoxHandler(paisesAmostrar[posicion].IDD)}} 
+                    checked={estadoCheck(paisesAmostrar[posicion].IDD)}></input>
                 <p></p>
                 <button onClick={(e)=>{onClickButtonHandler(posicion)}}>Mas Detalle</button>
             </div>

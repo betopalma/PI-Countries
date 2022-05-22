@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from 'react-redux'
 
 import {useHistory} from 'react-router-dom'
 
-import {getCountries} from '../Actions/actions.js'
+import {getCountries,getActivities} from '../Actions/actions.js'
 
 
 
@@ -25,6 +25,16 @@ function Bienvenida() {
         )
     }
 
+    const obteneractividades = function () {
+        console.log('obtener actividades')
+        return fetch(`http://localhost:3001/activities`)
+        .then(response => response.json())
+        .then(p => {
+            console.log ('en el then',p)
+            return p;
+        }
+        )
+    }
     const onClickHandler = async (e) => {
         try {
             const data = await obtenerpais();
@@ -32,6 +42,8 @@ function Bienvenida() {
             console.log('datos obtenidos' , newdata)
             dispatch(getCountries(newdata));
             console.log("despues del dispatch " , paisesLoaded.length)
+            const activ = await obteneractividades();
+            dispatch(getActivities(activ));
             history.push("/home")    
         }
         catch (e) {

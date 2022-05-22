@@ -14,6 +14,15 @@
           paisesAmostrar: action.payload
         };
      }
+     if (action.type === "GET_ACTIVITIES") {
+      return {
+        ...state,
+        activities: action.payload
+      };
+   }
+
+
+     
      if (action.type === "GET_COUNTRIES_DETAILS") {
       return {
         ...state,
@@ -43,6 +52,15 @@
           paisesAmostrar: state.paisesLoaded
         };
       }
+
+      if (action.type === "SET_COUNTRY_CHECK") {
+        console.log('En reducer CHEcKER')
+        return {
+          ...state,
+          paisesLoaded: action.payload
+        };
+      }
+
       if (action.type === "SET_ORDER") {
         console.log('En reducer Order')
         return {
