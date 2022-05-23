@@ -113,7 +113,7 @@ router.get("/countries", async (req,res,next)=>{
                         }
                         )
                         const pais = await Country.bulkCreate (info);
-                        res.send(info)
+                        res.status(200).send(info)
                     }
                     catch (error) {
                         console.log('Error en bulk: ' + error)
@@ -130,7 +130,7 @@ router.get("/countries", async (req,res,next)=>{
                 const p = await Country.findAll({
                     attributes: ['IDD','name','flags','continent', 'capital','subregion','area','population']
                 })
-                res.send(p)
+                res.status(200).send(p)
             }
         }
         else 
@@ -204,13 +204,13 @@ router.get("/countriesxactivity/:idAct", async (req,res,next)=>{
 router.post("/activity", async (req,res,next)=>{
     // Recibe x body los parametros
     // Opcion de alta
-    const {iddAct , name , dificultad, duracion, temporada} = req.body;
-    console.log(iddAct,name, parseInt(dificultad),duracion,temporada)
+    const {idd , name , dificultad, duracion, temporada} = req.body;
+    console.log(idd,name, parseInt(dificultad),duracion,temporada)
  
-        if (!iddAct || !name || !dificultad || !duracion || !temporada) {res.send('Faltan datos')}
+        if (!idd || !name || !dificultad || !duracion || !temporada) {res.send('Faltan datos')}
         else {
             const act = await Activity.create({
-                idd:iddAct,name,dificultad: parseInt(dificultad),duracion,temporada
+                idd:idd,name,dificultad: parseInt(dificultad),duracion,temporada
             })
             .then(() => {res.status(201).send({msg: 'Actividad Creada'})})
             .catch((e)=>{
@@ -224,14 +224,14 @@ router.post("/activity", async (req,res,next)=>{
 router.post("/vincular", async (req,res,next)=>{
     // Vincula 1 actividad a 1 o varios paises
 
-    const {iddAct , IDDPais} = req.body;
+    const {idd , IDDPais} = req.body;
 
     try {
-        
-        if (!iddAct || !IDDPais) {
+        console.log('para grabar vinclurar', idd,IDDPais)
+        if (!idd || !IDDPais) {
             res.send('Faltan datos')
         } else {
-            const act = await Activity.findByPk(iddAct)
+            const act = await Activity.findByPk(idd)
             if (!act) console.log('Actividad no encontrada')
             else{
                 IDDPais.forEach(async (i) => {
