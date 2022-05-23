@@ -7,6 +7,21 @@
     border-radius: 20px;
     font-size:xx-large;
     box-shadow: 5px 5px 5px 5px grey;
+    cursor: pointer;
+    position:relative;
+    transition: all 0.10s ease-in-out;
+    -webkit-transition: all 0.10s ease-in-out;
+}
+#BndBtn:active {
+    border: solid blue;
+    width: 40%;
+    height: 30%;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    font-size:xx-large;
+    box-shadow: 1px 1px 1px 1px grey;
+    cursor: pointer;
 }
 
 .Fondo {

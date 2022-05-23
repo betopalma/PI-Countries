@@ -50,5 +50,17 @@
     flex-direction: row;
     width: 100%;
     justify-content: space-between;
-    /* border: solid blue; */
+}
+#BCerrar {
+    border-radius: 2vh;
+    border: 1px solid blue;
+    height: 90%;
+    box-shadow: 2px 2px 2px 2px grey;
+    cursor: pointer;
+    position:relative;
+    transition: all 0.10s ease-in-out;
+    -webkit-transition: all 0.10s ease-in-out;
+}
+#BCerrar:active {
+    box-shadow: 1px 1px 1px 1px grey;
 }

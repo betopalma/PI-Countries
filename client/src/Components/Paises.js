@@ -50,7 +50,7 @@ function Paises (props) {
     return (
         <>
             <div className='Paises'>
-                {paisesAmostrar.length > offset + 0 ? <Pais posicion={`${offset + 0}`}/> :null} 
+                {(paisesAmostrar.length > offset + 0) && (offset >=0) ? <Pais posicion={`${offset + 0}`}/> :null} 
                 {paisesAmostrar.length > offset + 1 ? <Pais posicion={`${offset + 1}`}/> :null}
                 {paisesAmostrar.length > offset + 2 ? <Pais posicion={`${offset + 2}`}/> :null}
                 {paisesAmostrar.length > offset + 3 ? <Pais posicion={`${offset + 3}`}/> :null}

@@ -1,0 +1,53 @@
+#form {
+    border: solid red;
+    border-radius: 2vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 80%;
+    height: 100%;
+    margin-top: 20px;
+    padding: 20px;
+}
+
+.Rform {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+}
+
+#Cform {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.Iform {
+    margin-top: 2px;
+    border-radius: 5px;
+    height: 20px;
+    border: 1px solid red;
+    width: 30%;
+    margin-right: 10px;
+}
+.Lform {
+    margin-top: 2px;
+    height: 20px;
+    justify-content: left;
+
+    width: 30%;
+}
+
+#Bform {
+    border-radius: 2vh;
+    border: solid blue;
+    box-shadow: 2px 2px 2px 2px grey;
+    cursor: pointer;
+    position:relative;
+    transition: all 0.10s ease-in-out;
+    -webkit-transition: all 0.10s ease-in-out;
+}
+
+#Bform:active {
+    box-shadow: 1px 1px 1px 1px grey;
+}

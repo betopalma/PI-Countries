@@ -19,4 +19,13 @@
     border: solid blue;
     margin-left: 10px;
     margin-right: 10px;
+    box-shadow: 2px 2px 2px 2px grey;
+    cursor: pointer;
+    position:relative;
+    transition: all 0.10s ease-in-out;
+    -webkit-transition: all 0.10s ease-in-out;
+  }
+
+  .PBtn:active {
+    box-shadow: 1px 1px 1px 1px grey;
   }

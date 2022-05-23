@@ -2,7 +2,8 @@
   const initialState = {
     paisesLoaded: [],
     paisesAmostrar: [],
-    offset:0
+    offset:-1,
+    checked:0,
   };
   
   function rootReducer(state = initialState, action) {
@@ -11,7 +12,8 @@
         return {
           ...state,
           paisesLoaded: action.payload,
-          paisesAmostrar: action.payload
+          paisesAmostrar: action.payload,
+          checked:0
         };
      }
      if (action.type === "GET_ACTIVITIES") {
@@ -23,12 +25,13 @@
 
 
      
-     if (action.type === "GET_COUNTRIES_DETAILS") {
-      return {
-        ...state,
-        paisesDetail: action.payload,
-      };
-   } 
+  if (action.type === "GET_COUNTRIES_DETAILS") {
+    return {
+      ...state,
+      paisesDetail: action.payload,
+    };
+  } 
+
      if (action.type === "GET_FILTERED_COUNTRIES") {
       console.log('En reducer Filtered' , action.payload)
         return {
@@ -57,7 +60,8 @@
         console.log('En reducer CHEcKER')
         return {
           ...state,
-          paisesLoaded: action.payload
+          paisesLoaded: action.payload.data,
+          checked: action.payload.checked
         };
       }
 

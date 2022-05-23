@@ -40,7 +40,8 @@ function Pais (props) {
         const indice = paisesLoaded.findIndex ((e)=>e.IDD===id)
         const data = paisesLoaded;
         data[indice].checked=!data[indice].checked
-        dispatch(setCountryCheck(data))
+        const cant=(data.filter((e)=>e.checked===true)).length
+        dispatch(setCountryCheck({data:data,checked:cant}))
     }
 
     const onClickButtonHandler = async function (pos) {
@@ -78,7 +79,7 @@ function Pais (props) {
                 <input type="checkbox" className='PaisCheck' onChange={(e)=>{onChangeCheckBoxHandler(paisesAmostrar[posicion].IDD)}} 
                     checked={estadoCheck(paisesAmostrar[posicion].IDD)}></input>
                 <p></p>
-                <button onClick={(e)=>{onClickButtonHandler(posicion)}}>Mas Detalle</button>
+                <button className='Boton' onClick={(e)=>{onClickButtonHandler(posicion)}}>Más detalle</button>
             </div>
             
         </div>

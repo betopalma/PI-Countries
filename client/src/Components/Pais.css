@@ -45,14 +45,20 @@
 }
 
 .Boton {
-    width: 20px;
-    height: 20px;
-    background-color: rgb(38, 0, 255);
-    color: white;
-    font-size: 15px;
-    border-radius: 5px;
-    margin: 2px;
-    align-self:flex-end;
+    border-radius: 2vh;
+    border: 1px solid blue;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 8px;
+    box-shadow: 2px 2px 2px 2px grey;
+    cursor: pointer;
+    position:relative;
+    transition: all 0.10s ease-in-out;
+    -webkit-transition: all 0.10s ease-in-out;
+}
+
+.Boton:active {
+    box-shadow: 1px 1px 1px 1px grey;
 }
 
 .PaisCheck {
