@@ -2,7 +2,6 @@ import './Pais.css'
 import {useDispatch , useSelector} from 'react-redux' 
 import {useHistory} from 'react-router-dom'
 import {useEffect} from 'react'
-// import {PaisDetalle} from './PaisDetalle.js'
 import {getCountriesDetails,setCountryCheck} from '../Actions/actions.js'
 
 function Pais (props) {
@@ -13,7 +12,7 @@ function Pais (props) {
     const dispatch = useDispatch();
 
     useEffect (()=>{
-        console.log('En Use effect de pais' , posicion)
+        //console.log('En Use effect de pais' , posicion)
     },[paisesAmostrar])
 
     const obtenerdetalle = function (id) {
@@ -29,7 +28,6 @@ function Pais (props) {
 
     const estadoCheck = function (id) {
         const x = paisesLoaded.findIndex((e)=>e.IDD===id)
-        console.log('estado',paisesLoaded[x].checked)
         return paisesLoaded[x].checked;
     }
 

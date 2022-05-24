@@ -5,10 +5,10 @@ import {useDispatch,useSelector} from 'react-redux'
 
 export default function FormularioAct(){
 
-    // Uso valores locales del componente par validar info ingresada
+    // Uso valores locales del componente para validar info ingresada
   const [state, setState] = useState({idd:'' , name:'',dificultad:1 , duracion:'' ,temporada:'Verano'})
   const [errores, setErrores] = useState({
-        nombre: 'el nombre es necesario'
+        //nombre: 'el nombre es necesario'
   })
   const {activities} = useSelector((state)=> state);
   const dispatch=useDispatch()
@@ -27,19 +27,12 @@ const guardarActividad = async function () {
       if (!p.ok) {
             if (p.statusText.includes('llave duplicada')) alert('Error!! Código de Identificación existente');
             else alert('Error!! Actividad no creada: ' + p.statusText)
-            console.log(p)
       } else {
          alert('Actividad agregada exitosamente')
-
          let data = activities
-         console.log('Actualizao el store',data)
          data.push(state)
          dispatch(getActivities(data))
-
-         console.log('Limpio state',p)
-
          setState({idd:'' , name:'',dificultad:1 , duracion:'' ,temporada:'Verano'})
-
          return p;
       }
     }) 
@@ -63,8 +56,6 @@ const guardarActividad = async function () {
         if((!input.duracion) || (input.duracion < 60) || (input.duracion > 180)) errores.duracion = 'Ingrese una duración válida (60 a 180 minutos)'
         console.log('Duracion' , input.duracion)
 
-
-        //console.log(errores)
         return errores
 
   }
@@ -75,11 +66,7 @@ const guardarActividad = async function () {
     }
 
     useEffect(() => {
-      //     effect
-      //     return () => {
-      //           cleanup
-      //     };
-      console.log('En use efect')
+
     }, [state]);
 
 
