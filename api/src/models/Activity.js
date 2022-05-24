@@ -4,7 +4,7 @@ module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define('activity', {
     idd: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(6),
       allowNull: false,
       primaryKey: true
     },
