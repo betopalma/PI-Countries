@@ -16,6 +16,18 @@
   <img height="300" src="./Home.png" />
 </p>
 
+## Detail
+
+<p align="left">
+  <img height="300" src="./Detail.png" />
+</p>
+
+## Activities
+
+<p align="left">
+  <img height="300" src="./Activity.png" />
+</p>
+
 ## Objetivos del Proyecto
 
 - App utlizando React, Redux, Node y Sequelize.
