@@ -13,7 +13,7 @@
 - App utlizando React, Redux, Node y Sequelize.
 - Permite consultar informacion de paises consumiendo apis externas de restcountries
 - Permite crear actividades turísticas y asiganarlas a paises
-- Filtros y ordenamientos en fornt y back
+- Filtros y ordenamientos en front y back
 
 
 ## BoilerPlate
