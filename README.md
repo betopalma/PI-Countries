@@ -4,8 +4,16 @@
 
 # Individual Project - Henry Countries
 
+## Landing Page
+
 <p align="left">
-  <img height="200" src="./countries.png" />
+  <img height="300" src="./countries.png" />
+</p>
+
+## Home
+
+<p align="left">
+  <img height="300" src="./Home.png" />
 </p>
 
 ## Objetivos del Proyecto
@@ -55,4 +63,5 @@ La idea general es crear una aplicación en la cual se pueda ver información de
 - [ ] Redux
 - [ ] Express
 - [ ] Sequelize - Postgres
+
 
