@@ -39,7 +39,6 @@ const { Country, Activity } = sequelize.models;
 
 (async () => {
 try {
-  console.log('Hace asociacion')
   Activity.belongsToMany(Country , {through: 'countryactivities'})
   Country.belongsToMany(Activity , {through: 'countryactivities'})
 }

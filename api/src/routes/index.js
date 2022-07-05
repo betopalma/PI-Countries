@@ -126,7 +126,6 @@ router.get("/countries", async (req,res,next)=>{
                 })
             }
             else{
-                console.log('Base de Datos ya cargada')
                 const p = await Country.findAll({
                     attributes: ['IDD','name','flags','continent', 'capital','subregion','area','population']
                 })
@@ -200,12 +199,25 @@ router.get("/countriesxactivity/:idAct", async (req,res,next)=>{
     }
 })
 
+router.post("/pais", async (req ,res)=>{
+
+    const {IDD,name,flags,continent,capital,subregion,area,population} =req.body
+    try {
+        const c = await Country.create ({IDD,name,flags,continent,capital,subregion,area,population})
+        res.send(c)
+    }
+    catch (error) {
+        res.send(error)
+    }
+    
+
+})
+
 
 router.post("/activity", async (req,res,next)=>{
     // Recibe x body los parametros
     // Opcion de alta
     const {idd , name , dificultad, duracion, temporada} = req.body;
-    console.log(idd,name, parseInt(dificultad),duracion,temporada)
  
         if (!idd || !name || !dificultad || !duracion || !temporada) {res.send('Faltan datos')}
         else {
@@ -227,7 +239,6 @@ router.post("/vincular", async (req,res,next)=>{
     const {idd , IDDPais} = req.body;
 
     try {
-        console.log('para grabar vinclurar', idd,IDDPais)
         if (!idd || !IDDPais) {
             res.send('Faltan datos')
         } else {
