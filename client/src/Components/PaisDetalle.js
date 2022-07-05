@@ -2,34 +2,24 @@ import React from 'react'
 import './PaisDetalle.css'
 import { connect } from 'react-redux';
 import {Redirect} from 'react-router-dom';
-import { getCountriesDetails } from '../Actions/actions';
-import History from 'react-router-dom'
 
 
 export class PaisDetalle extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-        
-        }
+        this.state = {}
     }
-
-
 
     componentDidMount(){
         console.log('en didmount',this.props.paisesDetail)
     }
-
-
 
     render(){
         console.log('en detalle')
         if (!this.props.paisesDetail) return <Redirect to="/" />;
         return (
             <div className='Detalle'>
-                {/* //Imagen,cod pais,nombre pais,Continente
-                //capital,subregion,area,Poblacion
-                //actividades turisticas */}
+
                 <div className='DetalleR'>
                     <div id='R11'>
                         <div className='R11D'>
@@ -44,9 +34,6 @@ export class PaisDetalle extends React.Component {
                         <div className='R11D'>
                             {`Capital: ${this.props.paisesDetail.capital}`} 
                         </div>
-                        {/* <div className='R11D'>
-                            <button id='BCerrar' onClick={(e)=>{}}>Cerrar</button>
-                        </div> */}
                     </div>
                 </div>
                 <div className='DetalleR'>
@@ -86,7 +73,6 @@ export class PaisDetalle extends React.Component {
 }
 
 function mapStateToProps(state){
-    console.log('En mapStateToProps')
     const paisesDetail = state.paisesDetail
     return {
         paisesDetail

@@ -7,9 +7,7 @@ export default function FormularioAct(){
 
     // Uso valores locales del componente para validar info ingresada
   const [state, setState] = useState({idd:'' , name:'',dificultad:1 , duracion:'' ,temporada:'Verano'})
-  const [errores, setErrores] = useState({
-        //nombre: 'el nombre es necesario'
-  })
+  const [errores, setErrores] = useState({})
   const {activities} = useSelector((state)=> state);
   const dispatch=useDispatch()
 

@@ -1,4 +1,4 @@
-import {Route, Switch, Redirect} from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 import './App.css';
 import "./Components/NavBar.js"
 import NavBar from './Components/NavBar.js';
@@ -35,9 +35,9 @@ function App() {
               <NavBar/>
               <FormularioAct/>
             </Route>  
-            {/* <Route path='*'>
+            <Route path='*'>
               <h1>Error 404</h1>
-            </Route> */}
+            </Route>
           </Switch>
         </div>
       </body>

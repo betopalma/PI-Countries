@@ -9,14 +9,11 @@ function Panel() {
     const [filtro ,setFiltro] = useState({pais:'',continente:'',actividad:''});
     const [filtroAmostrar, setfiltroAmostrar] = useState('');
     const [asignarBtn, setAsignarBtn] = useState({idd:'',IDDPais:[]});
-    const {paisesLoaded,paisesAmostrar,activities,checked,valorfiltros} = useSelector((state)=> state);
+    const {paisesLoaded,paisesAmostrar,activities,checked} = useSelector((state)=> state);
     
     const paisHandler = async function (e) {
         try {
-
             setFiltro({pais:e.target.value,continente:'',actividad:''})
-
-            console.log('vacio campo')
             e.target.value=''
         }
         catch (error) {
@@ -31,15 +28,12 @@ function Panel() {
         catch (error) {
             console.log(error)
         }
-
-        // dispatch(getFilteredCountries(filtro));
     }
     const actividadHandler = function (e) {
         try{
             setFiltro({pais:'', continente:'',actividad:e.target.value})
             if (e.target.value !=='') {
                 setfiltroAmostrar(e.target.value)
-
             }
             e.target.value=''
         }
@@ -50,10 +44,9 @@ function Panel() {
 
 
     const asignarActividadHandler = function (e) {
-        //setea la actividad en el store
+        //setea la actividad en el estado
         try{
             setAsignarBtn({...asignarBtn,idd:e.target.value})
-            console.log(asignarBtn)
         }
         catch (error) {
             console.log(error)
@@ -61,7 +54,7 @@ function Panel() {
     }
    
     const asignarBotonHandler = async function (e) {
-        //Obtener arreglo de IDDPais con la opcion checked en tru
+        //Obtener arreglo de IDDPais con la opcion checked en true
         const p= paisesLoaded.filter((item)=>item.checked===true)
         const data=p.map((item)=>item.IDD)
         const vincular = {idd:asignarBtn.idd,IDDPais:data}
@@ -75,7 +68,7 @@ function Panel() {
        .then(p => {
         //if (!p.ok) throw Error(p.status);
         if (!p.ok) {
-              alert('Error!! Asignaciónno creada');
+              alert('Error!! Asignación no creada');
               console.log(p)
         } else {
            alert('Asignación creada exitosamente')
@@ -103,7 +96,6 @@ function Panel() {
     }
 
     const ordenarHandler = function (e) {
-        console.log('OrdenarHandler', e.target.value)
         let ordenados = [];
         switch (e.target.value) {
             case 'PAsc':
@@ -121,7 +113,6 @@ function Panel() {
             default:
                 ordenados = paisesAmostrar.sort(ordenarArrayPAsc)             
             };
-            console.log('OrdenarHandler',ordenados)
             dispatch(setearOrden(ordenados));
 
     }
@@ -135,12 +126,10 @@ function Panel() {
         //const data = obtenerpaisfiltrado();
         if (filtro.pais==='' && filtro.continente==='' && filtro.actividad==='') return;
         if (filtro.pais!=='') {
-            console.log('obtener paises filtrados x query',filtro.pais)
             return fetch(`http://localhost:3001/countries?name=${filtro.pais}`)
             .then(response => response.json())
             .then(p => {
-                console.log ('en el then del useeffect recibido',p)
-                console.log ('en el then del useeffect filtro:',filtro)
+                console.log(p);
                 if (p.length!==0) {
                     dispatch(getFilteredCountries(p));
                     setfiltroAmostrar(filtro.pais)
@@ -154,21 +143,17 @@ function Panel() {
         }
         if (filtro.continente!=='') {
             const mostrar = paisesLoaded.filter((e)=>  e.continent.toLowerCase() === filtro.continente.toLowerCase() ? e : null)
-            console.log('Mostrar',mostrar)
             if (mostrar.length!==0) {
                 dispatch(getFilteredCountries(mostrar));
                 setfiltroAmostrar(filtro.continente)
-
                 return mostrar;
             } 
             else {
                 alert('Continente no encontrado');
-
                 return mostrar;
             }
         }
         if (filtro.actividad!=='') {
-            console.log('Actividad',filtro.actividad)
             return fetch(`http://localhost:3001/countriesxactivity/${filtro.actividad}`)
             .then(response => response.json())
             .then(p => {

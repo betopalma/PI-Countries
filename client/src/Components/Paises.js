@@ -1,5 +1,5 @@
 import './Paises.css'
-import React, { useEffect, useState } from 'react';
+import React, { useEffect} from 'react';
 import Pais from './Pais.js'
 import {useDispatch , useSelector} from 'react-redux' 
 import {Redirect} from 'react-router-dom';
@@ -7,11 +7,11 @@ import {setOffset} from '../Actions/actions.js'
 
 function Paises (props) {
 
-    const {paisesLoaded,paisesAmostrar,offset} = useSelector((state)=> state);
+    const {paisesAmostrar,offset} = useSelector((state)=> state);
     const dispatch=useDispatch();
 
     useEffect (()=>{
-        console.log('En Use effect de paises' , offset)
+        //console.log('En Use effect de paises' , offset)
     },[paisesAmostrar,offset])
 
     const primero = function () {
@@ -19,29 +19,22 @@ function Paises (props) {
     }
 
     const proximo = function () {
-        console.log('Pulsoo proximo');
         let valor = 0;
         if (offset+10 > paisesAmostrar.length-1 ) valor = offset;
         else valor=offset+10
         dispatch(setOffset(valor));
-        //(offset+10) > paisesAmostrar.length-11 ? dispatch(setOffset(paisesAmostrar.length-11)) : dispatch(setOffset(offset+10));
-        console.log('Nuevo offset',offset);
     }
 
     const anterior = function () {
-        console.log('Pulsoo anterior');
         let valor = 0;
         if (offset-10 < 0 ) valor = 0 ;
         else valor=offset-10;
         dispatch(setOffset(valor));
-        //(offset-10) < 0 ? dispatch(setOffset(0)) : dispatch(setOffset(offset-10));
-        console.log('Nuevo offset',offset);
     }
 
     const ultimo = function () {
         let valor = 0;
         if (paisesAmostrar.length-11 >=0 ) valor = paisesAmostrar.length-10;
-
         dispatch(setOffset(valor));
     }
 
